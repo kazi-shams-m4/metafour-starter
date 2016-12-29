@@ -33,6 +33,7 @@
 			<div class="modal-body"></div>
 		</div>
 		<span th:if="${messages ne null}" class="nodisplay messagetoshowonload" th:each="message : ${messages}" th:text="${message}"></span>
+
 		<div id="block-ui" style="z-index: 2055">
 			<div class="updateProgress"><img th:src="@{/img/ajax-loading.gif}" /></div>
 			<div class="updateBackground"></div>
