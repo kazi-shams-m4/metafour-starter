@@ -7,7 +7,7 @@ $(function() {
 	metaboot($('body'));
 	addvalidation($('body'));
 
-	if ($("ul.nav li").length == 1) { // indicates create screen as we are using only create button at create screen
+	if ($("#headerbar ul.nav li").length == 1) { // indicates create screen as we are using only create button at create screen
 		editmode($('body:visible'));
 	} else {
 		viewmode($('body:visible'));

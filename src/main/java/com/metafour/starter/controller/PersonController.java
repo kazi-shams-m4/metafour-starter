@@ -32,6 +32,7 @@ import com.metafour.starter.service.PersonService;
 public class PersonController {
 
 	private final Map<String, String> COURSES = new HashMap<>();
+	
 	@Autowired PersonService personService;
 	@Autowired DestinationService destinationService;
 	
@@ -47,8 +48,8 @@ public class PersonController {
 		COURSES.put("8", "Course 8");
 		COURSES.put("9", "Course 9");
 		COURSES.put("10", "Course 10");
+		
 	}
-
 	@RequestMapping
 	public String newScreen(final ModelMap model) throws MetafourStarterException {
 		return updateScreen(null, model);
@@ -58,6 +59,7 @@ public class PersonController {
 	public String updateScreen(@PathVariable String id, final ModelMap model) throws MetafourStarterException {
 		model.addAttribute("person", id == null ? new Person() : personService.getById(id));
 		model.addAttribute("courses", COURSES);
+		
 		model.addAttribute("degrees", Arrays.asList("SSC", "HSC", "Graduation", "Post Graduation"));
 		return "person/person";
 	}

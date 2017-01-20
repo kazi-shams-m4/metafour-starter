@@ -1,0 +1,297 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<title th:text="#{student.title}">Student</title>
+<span th:substituteby="commons :: common-css"></span>
+</head>
+<body th:with="isNew=${#strings.isEmpty(student.id)}">
+	<div id="headerbar" class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<button type="button" class="btn btn-navbar" data-toggle="collapse"
+					data-target=".nav-collapse">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<span class="brand" th:text="#{student.head}">Brand text</span>
+
+				<div class="nav-collapse collapse">
+					<ul class="nav pull-right" th:if="${isNew}">
+						<li><a class="viewmode updatebutton addbutton submit"
+							id="headerconfirmbutton" th:text="#{action.create}">Create</a></li>
+					</ul>
+					<ul class="nav pull-right" th:unless="${isNew}">
+						<li><a class="editmode" id="addbutton"
+							th:href="@{'/student'}" th:text="#{action.add}">Add</a></li>
+						<li><a class="editmode" id="updatebutton"
+							th:text="#{action.update}">Update</a></li>
+						<li class="nodisplay"><a
+							class="viewmode updatebutton addbutton submit"
+							id="headerconfirmbutton" th:text="#{action.save}">Save</a></li>
+						<li class="nodisplay"><a class="viewmode updatebutton"
+							id="headercancelbutton" th:text="#{action.cancel}">Cancel</a></li>
+					</ul>
+					<form id="searchform" class="navbar-search pull-right" method="get"
+						th:action="@{'/student/'}">
+						<input id="datasearchfield" class="typeahead search-query"
+							type="text" placeholder="Search" data-provide="typeahead"
+							th:attr="data-search-url=@{'/search/student/'}" /> <input
+							class="typeahead-val" type="hidden" name="code" value="" /> <input
+							class="typeahead-desc" type="hidden" value="" />
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="container" class="container">
+		<header id="overview" class="subhead">
+			<div class="subnav-fixed subnav" id="subnavscroll">
+				<ul class="nav nav-pills">
+					<li class=""><a href="#personalDetailS">Personal Detail</a></li>
+					<li class=""><a href="#ParentDetails">Parent Detail</a></li>
+				</ul>
+			</div>
+		</header>
+		<form id="mainform" th:object="${student}" class="form-horizontal"
+			method="POST" autocomplete="off" th:action="@{'/student'}">
+			<section id="personalDetailS">
+				<div class="page-header sectionbartoggle" tabindex="0">
+					<h1>
+						<small><i class="icon-chevron-down"></i>Personal Informations</small>
+					</h1>
+				</div>
+				<div class="row anything">
+					<div class="span6">
+						<fieldset>
+							<div class="control-group" th:if="*{id != null}">
+								<label for="studentId" class="control-label" th:text="#{student.id.label}">	</label>
+								<div class="controls">
+									<input type="text" data-required="required" th:field="*{id}" class="input-small include" readonly="readonly" />
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="name" class="control-label" th:text="#{student.name.label}"></label>
+								<div class="controls">
+									<input id="name" th:field="*{name}" type="text" data-maxlength="50" class="include" data-required="required" placeholder="Student name" />
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="dateofbirth" class="control-label" th:text="#{student.dob.label}"></label>
+								<div class="controls">
+									<div class="input-append">
+										<input id="datepicker" th:field="*{dateOfBirth}" class="input-small include con-datepicker" type="text" name="datepicker" placeholder="Date of Birth" required="required"/><span class="add-on"><i class="icon-calendar"></i></span>
+									</div>
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="gender" class="control-label" th:text="#{student.sex.label}"></label>
+								<div class="controls">
+									<label class="radio inline">
+										<input type="radio" th:field="*{sex}" value="Male" id="groupofradiosradio1" name="groupofradios" class="include" /> Male
+									</label> 
+									<label class="radio inline"> 
+										<input type="radio" th:field="*{sex}" value="Female" id="groupofradiosradio2" name="groupofradios" class="include" />Female
+									</label>
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="religion" class="control-label" th:text="#{student.religion.label}"></label>
+								<div class="controls"> 
+									<input id="religion" th:field="*{religion}" type="text" data-maxlength="50" class="include" placeholder="Religion" />
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="contact" class="control-label" th:text="#{student.contact.label}"></label>
+								<div class="controls">
+									<input id="contactNo" th:field="*{contactNo}" type="text" data-maxlength="50" class="include" placeholder="Phone no" />
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="permanentaddress" class="control-label" th:text="#{student.permanentaddress.label}"></label>
+								<div class="controls">
+									<textarea id="permanentAddress" name="textarea" th:field="*{permanentAddress}" placeholder="Address" class="input-large include" data-required="required"></textarea>
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="presentaddress" class="control-label" th:text="#{student.presentaddress.label}"></label>
+								<div class="controls">
+									<textarea id="presentAddress" name="textarea" th:field="*{presentAddress}" placeholder="Present Address" data-required="required" class="input-large include"></textarea>
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="email" class="control-label" th:text="#{student.email.label}"></label>
+								<div class="controls">
+									<input id="email" th:field="*{email}" type="text" data-maxlength="50" class="include" data-required="required" placeholder="email" data-valid="email"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="nationality" class="control-label" th:text="#{student.nationality.label}"></label>
+								<div class="controls">
+									<input id="nationality" th:field="*{nationality}" type="text" data-maxlength="50" class="include" placeholder="Nationality" />
+								</div>
+							</div>
+						</fieldset>
+					</div>
+					<div class="span6">
+						<fieldset>
+							<div class="control-group">
+								<h3>SSC</h3>
+								<label for="school" class="control-label" th:text="#{student.school.label}"></label>
+								<div class="controls">
+									<input id="school" th:field="*{school}" type="text" data-maxlength="50" class="include" placeholder="School name" />
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="arrvalList" class="control-label" th:text="#{student.group.label}"></label>
+								<div class="controls">
+									<select id="arrvalList" th:field="*{groupschool}" class="input-large include" name="arrvalList">
+										<option value="Select">Select Group</option>
+										<option th:each="item : ${group}" th:value="${item}" th:text="${item}" />
+									</select>
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="schoolcourse" class="control-label" th:text="#{student.subject.label}"></label>
+								<div class="controls">
+									<select id="schoolcourse" th:field="*{subject}" class="include con-multiselect" multiple="multiple" name="schoolcourse">
+										<option th:each="item : ${courses}" th:value="${item.key}" th:text="${item.value}" />
+									</select>
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="passingyear" class="control-label" th:text="#{student.passingyear.label}"></label>
+								<div class="controls">
+									<input id="passingyear" th:field="*{schoolpassingyear}" type="text" data-maxlength="50" class="include" placeholder="Passing year" />
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="sscresult" class="control-label" th:text="#{student.result.label}"></label>
+								<div class="controls">
+									<input id="sscresult" th:field="*{schoolresult}" type="text" data-maxlength="50" class="include" placeholder="SSC Result" />
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="boardname" class="control-label" th:text="#{student.board.label}"></label>
+								<div class="controls">
+									<select id="arrvalList" th:field="*{schoolboard}" class="input-large include">
+										<option value="Select">Select Board</option>
+										<option th:each="item : ${board}" th:value="${item}" th:text="${item}" />
+									</select>
+								</div>
+							</div>
+							<div class="control-group">
+								<h3>HSC</h3>
+								<label for="college" class="control-label" th:text="#{student.college.label}"></label>
+								<div class="controls">
+									<input id="college" th:field="*{college}" type="text" data-maxlength="50" class="include" placeholder="College name" />
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="group" class="control-label" th:text="#{student.group.label}"></label>
+								<div class="controls">
+									<select id="arrvalList" th:field="*{groupcollege}" class="input-large include">
+										<option value="Select">Select Group</option>
+										<option th:each="item : ${group}" th:value="${item}" th:text="${item}"/>
+									</select>
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="collegesubject" class="control-label" th:text="#{student.subject.label}"></label>
+								<div class="controls">
+									 <select id="arrvalList2" th:field="*{collegesubject}" name="multiselect" class="include con-multiselect" multiple="multiple">
+										<option th:each="item : ${subject}" th:value="${item.key}" th:text="${item.value}" />
+									</select>
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="hscpassingyear" class="control-label" th:text="#{student.passingyear.label}"></label>
+								<div class="controls">
+									<input id="hscpassingyear" th:field="*{collegepassingyear}" type="text" data-maxlength="50" class="include" placeholder="Passing year" />
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="hscboard" class="control-label" th:text="#{student.board.label}"></label>
+								<div class="controls">
+									<select id="arrvalList" th:field="*{collegeboard}" class="input-large include">
+										<option value="Select">Select Board</option>
+										<option th:each="item : ${board}" th:value="${item}" th:text="${item}" />
+									</select>
+								</div>
+							</div>
+						</fieldset>
+					</div>
+				</div>
+			</section>
+			<section id="ParentDetails">
+				<div class="page-header sectionbartoggle" tabindex="0">
+					<h1>
+						<small><i class="icon-chevron-down"></i>Parent Details</small>
+					</h1>
+				</div>
+				<div class="row anything">
+					<div class="span6">
+					<fieldset>
+						<div class="control-group">
+							<label for="father" class="control-label" th:text="#{student.father.label}"></label>
+								<div class="controls">
+									<input id="father" th:field="*{fathersName}" type="text" data-maxlength="50" class="include" data-required="required" placeholder="Father name" />
+								</div>
+						</div>
+						<div class="control-group">
+							<label for="fatheroccupation" class="control-label" th:text="#{student.parent.occupation}"></label>
+								<div class="controls">
+									<input id="fatheroccupation" th:field="*{fatherOccupation}" type="text" data-maxlength="50" class="include" data-required="required" placeholder="Father Occupation" />
+								</div>
+						</div>
+						<div class="control-group">
+							<label for="fathercontact" class="control-label" th:text="#{student.father.contact}"></label>
+								<div class="controls">
+									<input id="fathercontact" th:field="*{fatherContact}" type="text" data-maxlength="50" class="include" data-required="required" placeholder="Father Contact" />
+								</div>
+						</div>
+						<div class="control-group">
+							<label for="fatheryearlyincome" class="control-label" th:text="#{student.father.yearlyIncome}"></label>
+								<div class="controls">
+									<input id="fatheryearlyincome" th:field="*{fatheryearlyIncome}" type="text" data-maxlength="50" class="include" placeholder="Father yearly Income" />
+								</div>
+						</div>
+					</fieldset>
+					</div>
+					<div class="span6">
+					<fieldset>
+						<div class="control-group">
+							<label for="mothername" class="control-label" th:text="#{student.mother.label}"></label>
+								<div class="controls">
+									<input id="mothersName" th:field="*{mothersName}" type="text" data-maxlength="50" class="include" data-required="required" placeholder="Mother name" />
+								</div>
+						</div>
+						<div class="control-group">
+							<label for="occupation" class="control-label" th:text="#{student.parent.occupation}"></label>
+								<div class="controls">
+									<input id="occupation" th:field="*{motherOccupation}" type="text" data-maxlength="50" class="include" placeholder="Mother Occupation" />
+								</div>
+						</div>
+						<div class="control-group">
+							<label for="mothercontact" class="control-label" th:text="#{student.mother.contact}"></label>
+								<div class="controls">
+									<input id="mothercontact" th:field="*{motherContact}" type="text" data-maxlength="50" class="include" data-required="required" placeholder="Mother Contact" />
+								</div>
+						</div>
+						<div class="control-group">
+							<label for="motheryearlyincome" class="control-label" th:text="#{student.mother.yearlyIncome}"></label>
+								<div class="controls">
+									<input id="motheryearlyincome" th:field="*{motherYearlyIncome}" type="text" data-maxlength="50" class="include" placeholder="Mother yearly Income" />
+								</div>
+						</div>
+					</fieldset>
+					</div>
+				</div>
+			</section>
+		</form>
+	</div>
+	<span th:substituteby="commons :: common-html"></span>
+	<span th:substituteby="commons :: common-js"></span>
+</body>
+</html>
+

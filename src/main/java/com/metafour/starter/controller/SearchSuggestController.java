@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.metafour.starter.service.DestinationService;
 import com.metafour.starter.service.PersonService;
 import com.metafour.starter.service.ResortService;
+import com.metafour.starter.service.StudentService;
 
 /**
  * @author Noor Siddique
@@ -26,6 +27,7 @@ public class SearchSuggestController {
 	@Autowired DestinationService destinationService;
 	@Autowired ResortService resortService;
 	@Autowired PersonService personService;
+	@Autowired StudentService studentService;
 
 	@RequestMapping("/destination/{hint}")
 	public Collection<Map<String, String>> searchDestination(@PathVariable String hint) {
@@ -61,4 +63,15 @@ public class SearchSuggestController {
 			return item;
 		}).collect(Collectors.toList());
 	}
+	
+	@RequestMapping("/student/{hint}")
+	public Collection<Map<String, String>> searchStudent(@PathVariable String hint) {
+		return studentService.find(hint).stream().map(it -> {
+			Map<String, String> item = new HashMap<>();
+			item.put("key", it.getId());
+			item.put("value", it.getName());
+			return item;
+		}).collect(Collectors.toList());
+	}
+	
 }
